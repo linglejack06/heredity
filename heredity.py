@@ -153,13 +153,13 @@ def joint_probability(people, one_gene, two_genes, have_trait):
             mother_chance = 1.0
             if mother in one_gene:
                 # 50% chance from one gene
-                mother_chance *= (0.5 - PROBS["mutation"])
+                mother_chance *= 0.5
             elif mother in two_genes:
                 mother_chance *= (1 - PROBS["mutation"])
             else:
                 mother_chance *= PROBS["mutation"]
             if father in one_gene:
-                father_chance *= (0.5 - PROBS["mutation"])
+                father_chance *= 0.5
             elif father in two_genes:
                 father_chance *= (1 - PROBS["mutation"])
             else:
@@ -167,10 +167,9 @@ def joint_probability(people, one_gene, two_genes, have_trait):
 
             # add the chances from parents
             if genes == 2:
-                person_probability *= father_chance * father_chance * mother_chance * mother_chance
+                person_probability *= father_chance * mother_chance
             elif genes == 1:
-                # 1 - chance is chance not to inherit since we only want one
-                person_probability *= father_chance * (1 - father_chance) * mother_chance * (1 - mother_chance)
+                person_probability *= father_chance * (1 - mother_chance) + mother_chance * (1 - father_chance)
             else:
                 person_probability *= (1 - father_chance) * (1 - mother_chance)
 
